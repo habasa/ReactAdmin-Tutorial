@@ -5,8 +5,19 @@ import {
     Create
 } from 'react-admin';
 
+const PostTitle = ({record }) => {
+    return <span>Post {record ? `"${record.title}"` : ''}</span>
+}
+
+const postFilters = [
+    <TextInput source="q" label="검색기능" alwaysOn />,
+    <ReferenceInput source="userId" label="User" reference="users" allowEmpty>
+        <SelectInput optionText="name" />
+    </ReferenceInput>
+]
+
 export const PostList = (props) => (
-    <List {...props}>
+    <List filters={postFilters} {...props}>
         <Datagrid>
             <TextField source="id" />
             <ReferenceField source="userId" reference="users">
@@ -20,7 +31,8 @@ export const PostList = (props) => (
 )
 
 export const PostEdit = (props) => (
-    <Edit {...props}>
+    // <Edit {...props}>
+    <Edit title={<PostTitle/>} {...props}>
         <SimpleForm>
             <TextInput disabled source="id" />
             <ReferenceInput source="userId" reference="users">
